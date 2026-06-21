@@ -16,9 +16,10 @@ export function zodAdapter(schema: ZodSchemaLike): ValidatorFn {
   return (data: unknown): ValidatorResult => {
     const result = schema.safeParse(data);
     if (!result.success) {
+      const issues = result.error?.issues ?? result.error?.errors ?? [];
       return {
         valid: false,
-        errors: (result.error?.errors ?? []).map((e) => ({
+        errors: issues.map((e) => ({
           field: Array.isArray(e.path) ? e.path.join('.') : String(e.path ?? ''),
           message: e.message,
         })),
@@ -29,9 +30,13 @@ export function zodAdapter(schema: ZodSchemaLike): ValidatorFn {
 }
 
 export interface ZodSchemaLike {
+  toJSONSchema?(): Record<string, unknown>;
   safeParse(data: unknown): {
     success: boolean;
     data?: unknown;
-    error?: { errors: Array<{ path: (string | number)[]; message: string }> };
+    error?: {
+      errors?: Array<{ path: PropertyKey[]; message: string }>;
+      issues?: Array<{ path: PropertyKey[]; message: string }>;
+    };
   };
 }

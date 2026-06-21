@@ -1,4 +1,4 @@
-# @soapjs/soap-contract-zod
+# @soapjs/soap-zod
 
 One Zod schema for **request validation** and **OpenAPI** fragments — no duplicate JSON Schema definitions.
 
@@ -7,7 +7,7 @@ Depends only on **`@soapjs/soap`** (route `apiDoc` / `DecoratorRegistry`) and **
 ## Install
 
 ```bash
-npm install @soapjs/soap-contract-zod zod @soapjs/soap express
+npm install @soapjs/soap-zod zod @soapjs/soap express
 ```
 
 Use with `@soapjs/soap-express` controllers in your app if you like — that is an app choice, not a dependency of this package.
@@ -17,7 +17,7 @@ Use with `@soapjs/soap-express` controllers in your app if you like — that is 
 ```typescript
 import { z } from 'zod';
 import { Post, Controller } from '@soapjs/soap-express';
-import { bodyContract } from '@soapjs/soap-contract-zod';
+import { bodyContract } from '@soapjs/soap-zod';
 
 const CreateBody = z.object({ name: z.string(), universe: z.enum(['marvel', 'dc']) });
 
@@ -32,6 +32,6 @@ class CharactersController {
 
 ## Peer dependencies
 
-- `@soapjs/soap` >= 0.12.1
-- `zod` >= 3.22
+- `@soapjs/soap` >= 0.14.0
+- `zod` >= 4.4.3
 - `express` >= 4 (middleware only)
